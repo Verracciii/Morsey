@@ -3,12 +3,6 @@
 ## Table of Contents
 - [Overview](#overview)
 - [Required Robot Parts](#required-robot-parts)
-- [Features](#features)
-- [Behaviours](#behaviours)
-- [Classes and Objects](#classes-and-objects)
-- [Methods and Functions](#methods-and-functions)
-- [Testing](#testing)
-- [Additional Features](#additional-features)
 
 ## Overview
 The Morse Code Reader Robot is an autonomous robot that reads Morse code from paper, interprets it, and performs specific instructions. It can also accept Morse code input via a touch sensor and navigate while avoiding obstacles. The robot is built using the **LEGO Mindstorms EV3** and programmed with the **Java leJOS API**.
