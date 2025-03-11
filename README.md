@@ -21,3 +21,8 @@ The Morse Code Reader Robot is an autonomous robot that reads Morse code from pa
 - Allows user input via the touch sensor.
 - Displays translated Morse code on screen.
 - Plays sound when Morse code is read.
+
+## Decomposition view
+![Untitled (Draft)-1](https://github.com/user-attachments/assets/05b48a41-f6c4-4b3b-af3e-1cdc262501c6)
+![Untitled (Draft)-2](https://github.com/user-attachments/assets/887a2ad0-7033-4ee1-bbd2-348957e44307)
+
