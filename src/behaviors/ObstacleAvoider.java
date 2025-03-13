@@ -1,12 +1,15 @@
 package behaviors;
 
-import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.subsumption.Behavior;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 
-public class TouchInterrupt implements Behavior {
-
-	EV3TouchSensor TOUCH_SEN;
+public class ObstacleAvoider implements Behavior {
 	
+	EV3LargeRegulatedMotor mL;
+	EV3LargeRegulatedMotor mR;
+	EV3UltrasonicSensor US_SEN;
+
 	@Override
 	public boolean takeControl() {
 		// TODO Auto-generated method stub
@@ -24,6 +27,5 @@ public class TouchInterrupt implements Behavior {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }
