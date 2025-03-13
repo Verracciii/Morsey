@@ -26,3 +26,6 @@ The Morse Code Reader Robot is an autonomous robot that reads Morse code from pa
 ![Untitled (Draft)-1](https://github.com/user-attachments/assets/05b48a41-f6c4-4b3b-af3e-1cdc262501c6)
 ![Untitled (Draft)-2](https://github.com/user-attachments/assets/887a2ad0-7033-4ee1-bbd2-348957e44307)
 
+## UML Class Diagram
+![UML class](https://github.com/user-attachments/assets/3bc1e0b2-7a67-48b2-922b-483bdc0445f9)
+
