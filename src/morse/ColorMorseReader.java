@@ -2,6 +2,7 @@ package morse;
 
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.utility.Delay;
 
 public class ColorMorseReader extends Thread implements MorseReader {
 
@@ -23,6 +24,7 @@ public class ColorMorseReader extends Thread implements MorseReader {
         LCD.clear();
         LCD.drawString("Color Mode", 0, 0);
         // Add your logic here to read Morse code using the color sensor
+        Delay.msDelay(1000);
     }
 
     @Override

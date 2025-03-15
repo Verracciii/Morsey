@@ -13,8 +13,8 @@ public class Morsey {
 	        // Display the main menu
 	        LCD.clear();
 	        LCD.drawString("Select Mode:", 0, 0);
-	        LCD.drawString("1. Color Reader", 0, 2);
-	        LCD.drawString("2. Touch Reader", 0, 3);
+	        LCD.drawString("LEFT: Color Reader", 0, 2);
+	        LCD.drawString("RIGHT: Touch Reader", 0, 3);
 
 	        // Wait for user input
 	        int buttonId;
