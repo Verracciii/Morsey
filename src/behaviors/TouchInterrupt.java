@@ -5,7 +5,7 @@ import lejos.robotics.subsumption.Behavior;
 
 public class TouchInterrupt implements Behavior {
 
-	EV3TouchSensor TOUCH_SEN;
+	private EV3TouchSensor TOUCH_SEN;
 	
 	@Override
 	public boolean takeControl() {
