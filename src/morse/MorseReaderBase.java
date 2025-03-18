@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MorseReaderBase {
+	
     //  Shared Morse Code Map (static so it's created only once)
     private static final Map<String, Character> MORSE_CODE_MAP = new HashMap<>();
 
