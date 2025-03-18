@@ -59,7 +59,7 @@ public class MorseReader {
 		MORSE_CODE_MAP.put("100001", '-');
 		MORSE_CODE_MAP.put("010010", '_');
 		MORSE_CODE_MAP.put("011010", '"');
-		MORSE_CODE_MAP.put("0001001", '$');
+		MORSE_CODE_MAP.put("0001001", ' ');
 		MORSE_CODE_MAP.put("01101", '@');
 	}
 
