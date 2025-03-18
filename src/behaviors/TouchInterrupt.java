@@ -2,6 +2,11 @@ package behaviors;
 
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.robotics.subsumption.Behavior;
+<<<<<<< Updated upstream
+=======
+import lejos.robotics.SampleProvider;
+import hardware.MotorController;
+>>>>>>> Stashed changes
 
 public class TouchInterrupt implements Behavior {
 
