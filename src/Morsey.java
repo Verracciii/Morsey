@@ -1,6 +1,8 @@
 // Packages
 import morse.ColorMorseReader;
 import morse.TouchMorseReader;
+import behaviors.*;
+import hardware.MotorController;
 
 // Library imports
 import lejos.hardware.Button;
