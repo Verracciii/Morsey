@@ -57,9 +57,9 @@ public class Logger extends Thread {
     private void display() {
         try {
             LCD.clear();
-            LCD.drawString("Motor A Speed: " + motorA.getSpeed(), 0, 1);
+           // LCD.drawString("Motor A Speed: " + motorA.getSpeed(), 0, 1);
             LCD.drawString("Motor A Tacho: " + motorA.getTachoCount(), 0, 2);
-            LCD.drawString("Motor B Speed: " + motorB.getSpeed(), 0, 3);
+            //LCD.drawString("Motor B Speed: " + motorB.getSpeed(), 0, 3);
             LCD.drawString("Motor B Tacho: " + motorB.getTachoCount(), 0, 4);
             touchSensor.fetchSample(touchSample, 0);
             LCD.drawString("Touch Val: " + touchSample[0], 0, 5);
