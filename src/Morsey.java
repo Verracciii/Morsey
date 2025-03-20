@@ -7,11 +7,28 @@ import hardware.MotorController;
 // Library imports
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
-
+import lejos.robotics.subsumption.Behavior;
+import lejos.robotics.subsumption.Arbitrator;
 
 public class Morsey {
 
 	 public static void main(String[] args) {
+		 
+	        // Create an instance of MotorController
+	        MotorController motorController = new MotorController();
+
+	        // Create instances of the behaviors
+	        Behavior touchInterrupt = new TouchInterrupt(motorController);
+	        //Behavior obstacleAvoider = new ObstacleAvoider(motorController);
+	        //Behavior lineFollower = new LineFollower(motorController);
+
+	        // Create an array of behaviors for the arbitrator
+	        Behavior[] behaviors = { touchInterrupt };
+
+	        // Create the arbitrator and start it
+	        Arbitrator arbitrator = new Arbitrator(behaviors);
+	        
+	        
 	        // Display the main menu
 	        LCD.clear();
 	        LCD.drawString("Select Mode:", 0, 0);
@@ -37,8 +54,9 @@ public class Morsey {
 	            LCD.clear();
 	            LCD.drawString("Touch Reader", 0, 0);
 	            // Call the TouchMorseReader class or start its thread
-	            TouchMorseReader touchReader = new TouchMorseReader();
+	            TouchMorseReader touchReader = new TouchMorseReader(motorController);
 	            touchReader.start();
 	        }
-	    }
+	        arbitrator.go();
+	  }
 }

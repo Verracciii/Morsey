@@ -1,7 +1,6 @@
 package hardware;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
-import lejos.robotics.RegulatedMotor;
 
 /**
  * The MotorController class controls the motors of the Lego EV3 robot.
@@ -9,8 +8,8 @@ import lejos.robotics.RegulatedMotor;
  */
 public class MotorController {
 
-    private RegulatedMotor leftMotor;
-    private RegulatedMotor rightMotor;
+    private EV3LargeRegulatedMotor leftMotor;
+    private EV3LargeRegulatedMotor rightMotor;
     private final int WHEEL_SPEED = 300; // Wheel speed in degrees per second
 
     /**
