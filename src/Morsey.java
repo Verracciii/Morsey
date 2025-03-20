@@ -12,6 +12,9 @@ import lejos.hardware.lcd.LCD;
 public class Morsey {
 
 	 public static void main(String[] args) {
+		  // Creates the Logger
+		   Logger logger = new Logger();
+		   logger.start();
 	        // Display the main menu
 	        LCD.clear();
 	        LCD.drawString("Select Mode:", 0, 0);
