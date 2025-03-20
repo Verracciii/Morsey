@@ -1,3 +1,5 @@
+import hardware.MotorController;
+import hardware.TouchController;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3TouchSensor;
@@ -6,19 +8,19 @@ import lejos.hardware.port.MotorPort;
 
 public class Logger extends Thread {
     private TextLCD lcd;
-    private EV3LargeRegulatedMotor motor;
-    private EV3TouchSensor sensor;
+    private MotorController motorController;
+    private TouchController touchController;
     private String morseString = "";
     private String decodedWord = "";
 
-    // Constructor: Initializes the LCD, motor, and sensor
-    public Logger(TextLCD lcd) {
+    // Constructor: Initialises the LCD, motor, and sensor
+    public Logger(TextLCD lcd, MotorController motorController, TouchController touchController) {
         this.lcd = lcd;
-        this.motor = new EV3LargeRegulatedMotor(MotorPort.A);
-        this.sensor = new EV3TouchSensor(SensorPort.S1);
-       
+        this.motorController = motorController;
+        this.touchController = touchController;
     }
-  // Main thread loop: Continuously updates and displays data
+    
+    // Main thread loop: Continuously updates and displays data
     public void run() {
         while (true) {
             display();
@@ -33,10 +35,10 @@ public class Logger extends Thread {
     private void display() {
         try {
             lcd.clear();
-            lcd.drawString("Motor Speed: " + motor.getSpeed(), 0, 1);
-            lcd.drawString("Motor Tacho: " + motor.getTachoCount(), 0, 2);
-            float[] sample = new float[sensor.sampleSize()];
-            sensor.fetchSample(sample, 0);
+            lcd.drawString("Motor Speed: " + motorController.getLeftMotor().getSpeed(), 0, 1);
+            lcd.drawString("Motor Tacho: " + motorController.getLeftMotor().getTachoCount(), 0, 2);
+            float[] sample = new float[touchController.getTouchSensor().sampleSize()];
+            touchController.getTouchSensor().fetchSample(sample, 0);
             lcd.drawString("Sensor Val: " + sample[0], 0, 3);
             lcd.drawString("Morse: " + morseString, 0, 4);
             lcd.drawString("Word: " + decodedWord, 0, 5);

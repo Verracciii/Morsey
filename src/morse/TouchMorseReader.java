@@ -1,9 +1,8 @@
 package morse;
 
 import hardware.MotorController;
+import hardware.TouchController;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.utility.Delay;
 
 public class TouchMorseReader extends Thread implements MorseReader {
@@ -11,16 +10,16 @@ public class TouchMorseReader extends Thread implements MorseReader {
     float DOT_DUR;
     float DASH_DUR;
     float SPACE_DUR;
-    private EV3TouchSensor TOUCH_SEN;
     private float[] CURR_SAMPLE;
     public StringBuilder WORD;
     public StringBuilder MORSE;
     private boolean running;
     private MotorController motorController;
+    private TouchController touchController;
 
-    public TouchMorseReader(MotorController motorController) {
+    public TouchMorseReader(MotorController motorController, TouchController touchController) {
         this.motorController = motorController; // Initialize the MotorController
-        //this.TOUCH_SEN = new EV3TouchSensor(SensorPort.S1); // Initialize the touch sensor
+        this.touchController = touchController; // Initialize the touch sensor
     }
     
     @Override
