@@ -69,11 +69,30 @@ public class TouchMorseReader extends Thread implements MorseReader {
     }
 
     private void checkForNewLetterOrWord() {
+    	long currentTime = System.currentTimeMillis();
+    	long timeSinceLastPress = currentTime - lastPressTime;
+    	if(timeSinceLastPress > NEW_WORD_DURATION && morseSequence.length() > 0) {
+    		 decodeMorseSequence();
+    	        decodedWord.append(" ");
+    	        morseSequence.setLength(0); // Clears sequence
+    	}
+    	else if(timeSinceLastPress > NEW_LETTER_DURATION && morseSequence.length() > 0) {
+    		decodeMorseSequence();
+    		morseSequence.setLength(0);
+    	}
     	
     }
 
     private void decodeMorseSequence() {
-    	
+    	String morseString = morseSequence.toString();
+    	Character decodedChar = MorseReaderBase.decodeMorse(morseString);
+    	if(decodedChar != null && decodedChar != '?') {
+    		decodedWord.append(decodedChar);
+    	}
+    	else {
+    		LCD.drawString("Invalid code: " + morseString, 0, 7);
+    	}
+    	updateDisplay();
     }
 
     private void updateDisplay() {
