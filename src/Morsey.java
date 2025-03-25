@@ -26,7 +26,7 @@ public class Morsey {
         Behavior[] behaviors = { touchInterrupt };
 
         // Create the arbitrator and start it
-        Arbitrator arbitrator = new Arbitrator(behaviors);
+        // Arbitrator arbitrator = new Arbitrator(behaviors);
 
         // Display the main menu
         LCD.clear();
@@ -55,6 +55,6 @@ public class Morsey {
             touchReader.start();
         }
 
-        arbitrator.go();
+        //arbitrator.go();
     }
 }

@@ -27,9 +27,7 @@ public class TouchInterrupt implements Behavior {
 
     @Override
     public void action() {
-        System.out.println("Touch sensor pressed! Stopping robot.");
-        motorController.stop(); // Stop the motors
-        System.exit(0);
+
     }
 
     @Override
