@@ -37,7 +37,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
         
         while (running) {
             readMorseInput();
-            //checkForNewLetterOrWord();
+            checkForNewLetterOrWord();
             updateDisplay();
             Delay.msDelay(50); // Small delay to prevent CPU overload
         }
