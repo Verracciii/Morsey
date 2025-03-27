@@ -3,18 +3,18 @@ package behaviors;
 import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.SampleProvider;
 import hardware.MotorController;
-import hardware.TouchController;
+import lejos.hardware.sensor.EV3TouchSensor;
 
 public class TouchInterrupt implements Behavior {
 
     private MotorController motorController;
-    private TouchController touchController;
+    private EV3TouchSensor touchSensor;
     private SampleProvider touchSampleProvider;
     private float[] sample;
 
-    public TouchInterrupt(MotorController motorController, TouchController touchController) {
-        this.touchController = touchController;
-        this.touchSampleProvider = touchController.getTouchSensor().getTouchMode();
+    public TouchInterrupt(MotorController motorController, EV3TouchSensor touchSensor) {
+        this.touchSensor = touchSensor;
+        this.touchSampleProvider = touchSensor.getTouchMode();
         this.sample = new float[touchSampleProvider.sampleSize()];
         this.motorController = motorController;
     }

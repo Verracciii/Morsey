@@ -1,7 +1,7 @@
 package morse;
 
 import hardware.MotorController;
-import hardware.TouchController;
+import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
 
@@ -15,13 +15,13 @@ public class TouchMorseReader extends Thread implements MorseReader {
     private StringBuilder morseSequence = new StringBuilder();
     private StringBuilder decodedWord = new StringBuilder();
     private MotorController motorController;
-    private TouchController touchController;
+    private EV3TouchSensor touchSensor;
     private long lastPressTime = System.currentTimeMillis();
     private boolean running = true;
 
-    public TouchMorseReader(MotorController motorController, TouchController touchController) {
+    public TouchMorseReader(MotorController motorController, EV3TouchSensor touchSensor) {
         this.motorController = motorController;
-        this.touchController = touchController;
+        this.touchSensor = touchSensor;
     }
     
     @Override
@@ -37,22 +37,22 @@ public class TouchMorseReader extends Thread implements MorseReader {
         
         while (running) {
             readMorseInput();
-            //checkForNewLetterOrWord();
+            checkForNewLetterOrWord();
             updateDisplay();
             Delay.msDelay(50); // Small delay to prevent CPU overload
         }
     }
 
     private void readMorseInput() {
-        float[] sample = new float[touchController.getTouchSensor().sampleSize()];
-        touchController.getTouchSensor().fetchSample(sample, 0);
+        float[] sample = new float[touchSensor.sampleSize()];
+        touchSensor.fetchSample(sample, 0);
         
         if (sample[0] == 1) { // Sensor is pressed
             long pressStartTime = System.currentTimeMillis();
             
             // Wait for release
             while (sample[0] == 1) {
-                touchController.getTouchSensor().fetchSample(sample, 0);
+               touchSensor.fetchSample(sample, 0);
             }
             
             long pressDuration = System.currentTimeMillis() - pressStartTime;
