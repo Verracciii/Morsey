@@ -1,5 +1,7 @@
 import behaviors.*;
-import hardware.*;
+import hardware.MotorController;
+import morse.*;
+
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -52,7 +54,7 @@ public class Morsey {
             // Start Touch Reader Mode
             LCD.clear();
             LCD.drawString("Touch Reader", 0, 0);
-            TouchMorseReader touchReader = new TouchMorseReader(motorController, touchController);
+            TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
         }
 
