@@ -14,6 +14,8 @@ import lejos.robotics.subsumption.Arbitrator;
 public class Morsey {
 
     public static void main(String[] args) {
+    	WelcomeScreen.show();
+    	
         // Initialize motor controller
         MotorController motorController = new MotorController();
 
