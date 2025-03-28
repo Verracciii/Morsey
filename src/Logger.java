@@ -1,9 +1,6 @@
 import hardware.MotorController;
 import lejos.hardware.lcd.TextLCD;
-import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3TouchSensor;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
 
 public class Logger extends Thread {
     private TextLCD lcd;
