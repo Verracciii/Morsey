@@ -1,10 +1,14 @@
-import morse.ColorMorseReader;
-import morse.TouchMorseReader;
+package main;
 import behaviors.*;
-import hardware.*;
+import hardware.MotorController;
+import morse.*;
 
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.port.SensorPort;
 import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.subsumption.Arbitrator;
 
@@ -15,18 +19,18 @@ public class Morsey {
         MotorController motorController = new MotorController();
 
         // Initialize sensor controllers
-        ColorController colorController = new ColorController();
-        TouchController touchController = new TouchController();
-        UltrasonicController ultrasonicController = new UltrasonicController();
+        EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
+        EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
+        EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
 
         // Create instances of the behaviors
-        Behavior touchInterrupt = new TouchInterrupt(motorController, touchController);
+        Behavior touchInterrupt = new TouchInterrupt(motorController, touchSensor);
 
         // Create an array of behaviors for the arbitrator
         Behavior[] behaviors = { touchInterrupt };
 
         // Create the arbitrator and start it
-        Arbitrator arbitrator = new Arbitrator(behaviors);
+        // Arbitrator arbitrator = new Arbitrator(behaviors);
 
         // Display the main menu
         LCD.clear();
@@ -38,7 +42,7 @@ public class Morsey {
         int buttonId;
         do {
             buttonId = Button.waitForAnyPress();
-        } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT);
+        } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT && buttonId != Button.ID_ESCAPE);
 
         // Handle the selected mode
         if (buttonId == Button.ID_LEFT) {
@@ -51,10 +55,12 @@ public class Morsey {
             // Start Touch Reader Mode
             LCD.clear();
             LCD.drawString("Touch Reader", 0, 0);
-            TouchMorseReader touchReader = new TouchMorseReader(motorController, touchController);
+            TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
+        } else if (buttonId == Button.ID_ESCAPE) {
+        	System.exit(0);
         }
 
-        arbitrator.go();
+        //arbitrator.go();
     }
 }
