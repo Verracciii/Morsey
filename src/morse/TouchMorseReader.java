@@ -2,8 +2,10 @@ package morse;
 
 import hardware.MotorController;
 import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
+import main.Morsey;
 
 public class TouchMorseReader extends Thread implements MorseReader {
 
@@ -40,6 +42,15 @@ public class TouchMorseReader extends Thread implements MorseReader {
             checkForNewLetterOrWord();
             updateDisplay();
             Delay.msDelay(50); // Small delay to prevent CPU overload
+        }
+        int buttonId;
+        do {
+            buttonId = Button.waitForAnyPress();
+        } while (buttonId != Button.ID_ESCAPE);
+        if (buttonId == Button.ID_ESCAPE) {
+        	running = false;
+        	LCD.clear();
+        	Morsey.main(new String[] {});
         }
     }
 

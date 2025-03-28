@@ -1,3 +1,5 @@
+package main;
+
 import hardware.MotorController;
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.SensorPort;

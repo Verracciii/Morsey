@@ -1,3 +1,4 @@
+package main;
 import behaviors.*;
 import hardware.MotorController;
 import morse.*;
@@ -41,7 +42,7 @@ public class Morsey {
         int buttonId;
         do {
             buttonId = Button.waitForAnyPress();
-        } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT);
+        } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT && buttonId != Button.ID_ESCAPE);
 
         // Handle the selected mode
         if (buttonId == Button.ID_LEFT) {
@@ -56,6 +57,8 @@ public class Morsey {
             LCD.drawString("Touch Reader", 0, 0);
             TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
+        } else if (buttonId == Button.ID_ESCAPE) {
+        	System.exit(0);
         }
 
         //arbitrator.go();
