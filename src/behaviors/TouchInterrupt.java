@@ -44,10 +44,7 @@ public class TouchInterrupt implements Behavior {
         // 1. Close touch sensor
         touchSensor.close();
         
-        // 3. Optional delay to see the message
-        Delay.msDelay(1000);
-        
-        // 4. Disable this behavior
+        // 2. Disable this behavior
         this.enabled = false;
     }
 
