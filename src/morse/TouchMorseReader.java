@@ -1,7 +1,6 @@
 package morse;
 
 import hardware.MotorController;
-import hardware.TouchController;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
 
@@ -15,12 +14,12 @@ public class TouchMorseReader extends Thread implements MorseReader {
     public StringBuilder MORSE;
     private boolean running;
     private MotorController motorController;
-    private TouchController touchController;
+   // private TouchController touchController;
 
-    public TouchMorseReader(MotorController motorController, TouchController touchController) {
+  /*  public TouchMorseReader(MotorController motorController, TouchController touchController) {
         this.motorController = motorController; // Initialize the MotorController
         this.touchController = touchController; // Initialize the touch sensor
-    }
+    }*/
     
     @Override
     public void run() {

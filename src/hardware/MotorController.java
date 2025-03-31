@@ -8,7 +8,7 @@ public class MotorController {
 
     private EV3LargeRegulatedMotor leftMotor;
     private EV3LargeRegulatedMotor rightMotor;
-    private final int WHEEL_SPEED = 55; // Wheel speed in degrees per second
+    private final int WHEEL_SPEED = 38; // Wheel speed in degrees per second
 
     public MotorController(Port leftPort, Port rightPort) {
         // Initialise the motors connected to ports A and D

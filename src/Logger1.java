@@ -1,4 +1,4 @@
-package Logging;
+
 
 import hardware.MotorController;
 import lejos.hardware.lcd.TextLCD;

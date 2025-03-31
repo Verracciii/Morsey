@@ -1,5 +1,5 @@
 import hardware.MotorController;
-import hardware.TouchController;
+
 import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3TouchSensor;
@@ -9,15 +9,14 @@ import lejos.hardware.port.MotorPort;
 public class Logger extends Thread {
     private TextLCD lcd;
     private MotorController motorController;
-    private TouchController touchController;
+  
     private String morseString = "";
     private String decodedWord = "";
 
     // Constructor: Initialises the LCD, motor, and sensor
-    public Logger(TextLCD lcd, MotorController motorController, TouchController touchController) {
+    public Logger(TextLCD lcd, MotorController motorController) {
         this.lcd = lcd;
         this.motorController = motorController;
-        this.touchController = touchController;
     }
     
 
@@ -39,9 +38,6 @@ public class Logger extends Thread {
             lcd.clear();
             lcd.drawString("Motor Speed: " + motorController.getLeftMotor().getSpeed(), 0, 1);
             lcd.drawString("Motor Tacho: " + motorController.getLeftMotor().getTachoCount(), 0, 2);
-            float[] sample = new float[touchController.getTouchSensor().sampleSize()];
-            touchController.getTouchSensor().fetchSample(sample, 0);
-            lcd.drawString("Sensor Val: " + sample[0], 0, 3);
             lcd.drawString("Morse: " + morseString, 0, 4);
             lcd.drawString("Word: " + decodedWord, 0, 5);
             lcd.refresh();
