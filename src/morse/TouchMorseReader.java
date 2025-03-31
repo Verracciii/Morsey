@@ -48,7 +48,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
     private void initializeDisplay() {
         LCD.clear();
         LCD.drawString("Enter Morse Code:", 0, 0);
-        LCD.drawString("Short=Dot (•)", 0, 1);
+        LCD.drawString("Short=Dot (.)", 0, 1);
         LCD.drawString("Long=Dash (-)", 0, 2);
         LCD.drawString("Hold=Space", 0, 3);
         LCD.drawString("ENTER when done", 0, 4);
@@ -70,13 +70,18 @@ public class TouchMorseReader extends Thread implements MorseReader {
             
             if (duration < DOT_THRESHOLD) {
                 currentMorse.append("0");
-                morseDisplay.append("•");
+                morseDisplay.append(".");
+                System.out.println(".");
             } else if (duration < DASH_THRESHOLD) {
                 currentMorse.append("1");
                 morseDisplay.append("-");
+                System.out.println("-");
+
             } else {
                 currentMorse.append(" ");
                 morseDisplay.append(" ");
+                System.out.println(" ");
+
             }
         }
     }
@@ -91,6 +96,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
 
     private void checkEnterButton() {
         if (Button.ENTER.isDown()) {
+        	System.out.println("Enter pressed");
             inputComplete = true;
             // Finish current letter if any
             if (currentMorse.length() > 0) {
@@ -130,6 +136,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
 
     private void showFeedback(String message) {
         LCD.clear(0, 5, 20);
+        System.out.println(message);
         LCD.drawString(message, 0, 5);
         Delay.msDelay(800);
         LCD.clear(0, 5, 20);
@@ -138,6 +145,8 @@ public class TouchMorseReader extends Thread implements MorseReader {
     private void updateDisplay() {
         LCD.clear(0, 6, 20);
         LCD.clear(0, 7, 20);
+        System.out.println(morseDisplay);
+        System.out.println(decodedWord);
         LCD.drawString("Input: " + morseDisplay, 0, 6);
         LCD.drawString("Output: " + decodedWord, 0, 7);
     }

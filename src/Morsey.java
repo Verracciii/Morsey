@@ -1,5 +1,6 @@
 import behaviors.*;
 import hardware.MotorController;
+import hardware.BluetoothHandler;
 import morse.*;
 
 import lejos.hardware.sensor.EV3ColorSensor;
@@ -52,15 +53,25 @@ public class Morsey {
             LCD.drawString("Color Reader", 0, 0);
             ColorMorseReader colorReader = new ColorMorseReader();
             colorReader.start();
+         // In Morsey.java, modify the Touch Reader section:
         } else if (buttonId == Button.ID_RIGHT) {
-            // Start Touch Reader Mode
             LCD.clear();
             LCD.drawString("Touch Reader", 0, 0);
+            BluetoothHandler btHandler = new BluetoothHandler();  // Initialize Bluetooth
+            
             TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
+            
             if (touchReader.isInputComplete()) {
-            	arbitrator.go();
-            	LCD.clear(0, 0, 18);
+                String decodedMessage = touchReader.getMorseWord().toString();
+                LCD.drawString("Decoded: " + decodedMessage, 0, 2);
+                
+                if (btHandler.isBluetoothAvailable()) {
+                    btHandler.sendMessage(decodedMessage);
+                }
+                
+                arbitrator.go();
+                LCD.clear(0, 0, 18);
             }
         }
 
