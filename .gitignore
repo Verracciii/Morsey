@@ -7,3 +7,4 @@ build/.DS_Store
 dist/
 *.class
 *.jar
+/WelcomeScreen.class
