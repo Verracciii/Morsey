@@ -1,7 +1,6 @@
 import behaviors.*;
 import hardware.MotorController;
 import morse.*;
-
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
@@ -26,12 +25,16 @@ public class Morsey {
         EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
         EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
         EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
-        Behavior exitHandler = new ExitHandler(motorController,colorSensor,touchSensor,ultrasonicSensor);
+        
+        
         // Create instances of the behaviors
         Behavior touchInterrupt = new TouchInterrupt(motorController, touchSensor);
-
+        Behavior exitHandler = new ExitHandler(motorController, colorSensor, touchSensor, ultrasonicSensor);
+        Behavior batteryVol = new  BatteryVoltageBehavior(motorController, colorSensor, touchSensor, ultrasonicSensor);
+        Behavior obstacleAvoider = new ObstacleAvoider(motorController, ultrasonicSensor);
+        
         // Create an array of behaviors for the arbitrator
-        Behavior[] behaviors = { touchInterrupt, exitHandler };
+        Behavior[] behaviors = { obstacleAvoider, touchInterrupt, batteryVol, exitHandler };
 
         // Create the arbitrator and start it
         Arbitrator arbitrator = new Arbitrator(behaviors);
@@ -53,8 +56,9 @@ public class Morsey {
             // Start Color Reader Mode
             LCD.clear();
             LCD.drawString("Color Reader", 0, 0);
-            ColorMorseReader colorReader = new ColorMorseReader();
+            ColorMorseReader colorReader = new ColorMorseReader(motorController);
             colorReader.start();
+            arbitrator.go();
         } else if (buttonId == Button.ID_RIGHT) {
             // Start Touch Reader Mode
             LCD.clear();

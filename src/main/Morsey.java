@@ -53,7 +53,7 @@ public class Morsey {
             // Start Color Reader Mode
             LCD.clear();
             LCD.drawString("Color Reader", 0, 0);
-            ColorMorseReader colorReader = new ColorMorseReader();
+            ColorMorseReader colorReader = new ColorMorseReader(motorController);
             colorReader.start();
         } else if (buttonId == Button.ID_RIGHT) {
             // Start Touch Reader Mode

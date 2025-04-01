@@ -41,7 +41,7 @@ public class ColorMorseReader extends Thread implements MorseReader {
 
     @Override
     public void run() {
-        motorController.forward();
+        motorController.forward(0);
 
         try {
             while (running && motorController.isMoving()) {

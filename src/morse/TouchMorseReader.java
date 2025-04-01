@@ -113,7 +113,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
         LCD.drawString("                    ", 0, 5); // Clear decoding line
         //LCD.drawString("Decoding: " + morse, 0, 5);
 
-        Character letter = MorseReaderBase.decodeMorse(morse);
+        Character letter = MorseReaderBase.decodeSingleMorseLetter(morse);
 
         LCD.drawString("                    ", 0, 6); // Clear decoded letter line
         //LCD.drawString("Decoded as: " + letter, 0, 6);

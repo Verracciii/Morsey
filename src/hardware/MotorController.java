@@ -110,6 +110,10 @@ public class MotorController {
 		leftMotor.close();
 		rightMotor.close();
 	}
+	
+	public boolean isMoving() {
+		return leftMotor.isMoving() || rightMotor.isMoving();
+	}
 
 	public EV3LargeRegulatedMotor getLeftMotor() {
 		return leftMotor;
