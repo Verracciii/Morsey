@@ -52,5 +52,4 @@ public class TouchInterrupt implements Behavior {
     public void suppress() {
         // Not needed in this implementation
     }
-
 }
