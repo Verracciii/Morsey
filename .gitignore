@@ -2,4 +2,4 @@
 /behaviors/
 /morse/
 bin/
-build/
+build/.DS_Store
