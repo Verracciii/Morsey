@@ -13,10 +13,10 @@ import lejos.hardware.port.UARTPort;
 public class ColorMorseReader extends Thread implements MorseReader {
 	 private static final float DOT_MAX = 700;
      private static final float DASH_MIN = 1400;
-     private static final float WORD_SPACE = 11000;
+     private static final float WORD_SPACE = 8500;
      private static final float TERMINATION_THRESHOLD = 26000;
-     private static final float BLACK_THRESH = 0.3f;
-     private static final float LETTER_SPACE = 4500;
+     private static final float BLACK_THRESH = 0.27f;
+     private static final float LETTER_SPACE = 5500;
 
     private StringBuilder MORSE = new StringBuilder();
     private StringBuilder WORD = new StringBuilder();
@@ -46,12 +46,17 @@ public class ColorMorseReader extends Thread implements MorseReader {
                 float intensity = getLightIntensity();
                 if (intensity < BLACK_THRESH) {
                     handleBlack();
+                   System.out.println(intensity);
                 } else {
                     handleWhite();
                 }
 
                 checkForTermination();
-                Thread.yield(); // Be CPU-friendly
+                try {
+                	Thread.sleep(90);
+                } catch (InterruptedException e) {
+                	
+                }
             }
         } finally {
             motorController.stop();
@@ -101,7 +106,7 @@ public class ColorMorseReader extends Thread implements MorseReader {
             MORSE.setLength(0);
         } else if (whiteDuration > WORD_SPACE && whiteDuration < TERMINATION_THRESHOLD && MORSE.length() > 0) {
             decodeSingleMorseLetter(MORSE.toString());
-            WORD.append(" ");
+            WORD.append("test");
             MORSE.setLength(0);
         }
     }
