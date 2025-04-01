@@ -14,7 +14,7 @@ public class BatteryVoltageBehavior implements Behavior {
     private final EV3TouchSensor touchSensor;
     private final EV3UltrasonicSensor ultrasonicSensor;
     private boolean suppressed = false;
-    private static final float SHUTDOWN_VOLTAGE = 4.0f;
+    private static final float SHUTDOWN_VOLTAGE = 6.0f;
 
     public BatteryVoltageBehavior(MotorController motorController, 
                                 EV3ColorSensor colorSensor,
