@@ -1,31 +1,34 @@
 package behaviors;
 
 import lejos.robotics.subsumption.Behavior;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import hardware.MotorController;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 
 public class ObstacleAvoider implements Behavior {
+	private MotorController motorController;
+	private EV3UltrasonicSensor ultrasonicSensor;
+	private boolean suppressed = false;
+	private static final float OBSTACLE_DISTANCE = 0.20f;
+	private static final int REVERSE_DURATION = 3000;
+	private static final int FORWARD_DURATION = 5000;
 	
-	EV3LargeRegulatedMotor mL;
-	EV3LargeRegulatedMotor mR;
-	EV3UltrasonicSensor US_SEN;
-
+	public ObstacleAvoider(MotorController motorController, EV3UltrasonicSensor ultrasonicSensor) {
+		this.motorController = motorController;
+		this.ultrasonicSensor = ultrasonicSensor;
+	}
 	@Override
 	public boolean takeControl() {
-		// TODO Auto-generated method stub
-		return false;
+		float[] sample = new float[1];
+		ultrasonicSensor.getDistanceMode().fetchSample(sample, 0);
+		return sample[0]<OBSTACLE_DISTANCE;
 	}
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
-
+		motorController.stop();
 	}
 
 	@Override
 	public void suppress() {
-		// TODO Auto-generated method stub
-
 	}
-
 }
