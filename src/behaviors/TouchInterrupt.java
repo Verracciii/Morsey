@@ -4,34 +4,52 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.SampleProvider;
 import hardware.MotorController;
 import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
+import lejos.hardware.Button;
 
 public class TouchInterrupt implements Behavior {
 
-    private MotorController motorController;
-    private EV3TouchSensor touchSensor;
-    private SampleProvider touchSampleProvider;
-    private float[] sample;
+    private final MotorController motorController;
+    private final EV3TouchSensor touchSensor;
+    private boolean enabled = false;
+    private boolean enterPressed = false;
 
     public TouchInterrupt(MotorController motorController, EV3TouchSensor touchSensor) {
-        this.touchSensor = touchSensor;
-        this.touchSampleProvider = touchSensor.getTouchMode();
-        this.sample = new float[touchSampleProvider.sampleSize()];
         this.motorController = motorController;
+        this.touchSensor = touchSensor;
+    }
+
+    public void enable() {
+        this.enabled = true;
+        LCD.clear();
+        LCD.drawString("Press ENTER to", 0, 0);
+        LCD.drawString("execute commands", 0, 1);
     }
 
     @Override
     public boolean takeControl() {
-        touchSampleProvider.fetchSample(sample, 0);
-        return sample[0] == 1; // 1 means pressed, 0 means not pressed
+        if (!enabled) return false;
+        
+        // Check for ENTER button press
+        enterPressed = Button.ENTER.isDown();
+        return enterPressed;
     }
 
     @Override
     public void action() {
-    	
+        LCD.clear();
+        LCD.drawString("Executing...", 0, 0);
+        
+        // 1. Close touch sensor
+        touchSensor.close();
+        
+        // 2. Disable this behavior
+        this.enabled = false;
     }
 
     @Override
     public void suppress() {
-        // No suppression needed since this behavior stops the robot
+        // Not needed in this implementation
     }
 }
