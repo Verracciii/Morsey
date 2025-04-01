@@ -1,6 +1,7 @@
 package morse;
 
 import hardware.MotorController;
+import behaviors.ExitHandler;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
@@ -20,6 +21,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
     private long lastPressTime;
     private boolean running = true;
     private boolean inputComplete = false;
+ 
 
     public TouchMorseReader(MotorController motorController, EV3TouchSensor touchSensor) {
         this.motorController = motorController;

@@ -21,12 +21,12 @@ public class Morsey {
         EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
         EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
         EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
-
+        Behavior exitHandler = new ExitHandler(motorController,colorSensor,touchSensor,ultrasonicSensor);
         // Create instances of the behaviors
         Behavior touchInterrupt = new TouchInterrupt(motorController, touchSensor);
 
         // Create an array of behaviors for the arbitrator
-        Behavior[] behaviors = { touchInterrupt };
+        Behavior[] behaviors = { touchInterrupt, exitHandler };
 
         // Create the arbitrator and start it
         Arbitrator arbitrator = new Arbitrator(behaviors);
