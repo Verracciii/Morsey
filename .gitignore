@@ -5,4 +5,5 @@ bin/
 build/.DS_Store
 .DS_Store
 dist/
-Morsey.jar
+*.class
+*.jar
