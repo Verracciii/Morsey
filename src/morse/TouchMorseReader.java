@@ -52,6 +52,11 @@ public class TouchMorseReader extends Thread implements MorseReader {
         LCD.drawString("Long=Dash (-)", 0, 2);
         LCD.drawString("Hold=Space", 0, 3);
         LCD.drawString("ENTER when done", 0, 4);
+
+        // Clear lines 5, 6, and 7 to prevent leftover text
+        LCD.drawString("                    ", 0, 5);
+        LCD.drawString("                    ", 0, 6);
+        LCD.drawString("                    ", 0, 7);
     }
 
     private void processInput() {
@@ -69,19 +74,14 @@ public class TouchMorseReader extends Thread implements MorseReader {
             lastPressTime = System.currentTimeMillis();
             
             if (duration < DOT_THRESHOLD) {
-                currentMorse.append("0");
+                currentMorse.append(".");
                 morseDisplay.append(".");
-                System.out.println(".");
             } else if (duration < DASH_THRESHOLD) {
-                currentMorse.append("1");
+                currentMorse.append("-");
                 morseDisplay.append("-");
-                System.out.println("-");
-
             } else {
                 currentMorse.append(" ");
                 morseDisplay.append(" ");
-                System.out.println(" ");
-
             }
         }
     }
@@ -96,7 +96,6 @@ public class TouchMorseReader extends Thread implements MorseReader {
 
     private void checkEnterButton() {
         if (Button.ENTER.isDown()) {
-        	System.out.println("Enter pressed");
             inputComplete = true;
             // Finish current letter if any
             if (currentMorse.length() > 0) {
@@ -108,23 +107,43 @@ public class TouchMorseReader extends Thread implements MorseReader {
     private void decodeCurrentLetter() {
         String morse = currentMorse.toString().trim();
         if (morse.isEmpty()) return;
-        
+
+        LCD.drawString("                    ", 0, 5); // Clear decoding line
+        //LCD.drawString("Decoding: " + morse, 0, 5);
+
         Character letter = MorseReaderBase.decodeMorse(morse);
+
+        LCD.drawString("                    ", 0, 6); // Clear decoded letter line
+        //LCD.drawString("Decoded as: " + letter, 0, 6);
+
+        currentMorse.setLength(0); // Clear buffer
+        morseDisplay.setLength(0); // Clear buffer
+
         if (letter != null && letter != '?') {
             decodedWord.append(letter);
-            showFeedback(morseDisplay + " = " + letter);
         } else {
-            showFeedback("Invalid: " + morseDisplay);
+            showFeedback(morse); // Show "Invalid" message
         }
-        
-        currentMorse.setLength(0);
-        morseDisplay.setLength(0);
+
     }
+
+    private void showFeedback(String morse) {
+        // Show "Invalid" on LCD
+        LCD.drawString("Invalid: " + morse, 0, 5);
+        Delay.msDelay(800); // Display for 800ms
+
+        // Clear input to allow new entry
+        morseDisplay.setLength(0);
+        currentMorse.setLength(0);
+        LCD.drawString("                    ", 0, 5); // Clear invalid message
+        updateDisplay(); // Refresh the display
+    }
+
 
     private void executeMotorCommands() {
         LCD.clear();
-        LCD.drawString("Executing:", 0, 0);
-        LCD.drawString(decodedWord.toString(), 0, 1);
+        //LCD.drawString("Executing:", 0, 0);
+        //LCD.drawString(decodedWord.toString(), 0, 1);
         
         // Convert decoded word to motor instructions
         String commands = decodedWord.toString();
@@ -134,21 +153,15 @@ public class TouchMorseReader extends Thread implements MorseReader {
         stopReading();
     }
 
-    private void showFeedback(String message) {
-        LCD.clear(0, 5, 20);
-        System.out.println(message);
-        LCD.drawString(message, 0, 5);
-        Delay.msDelay(800);
-        LCD.clear(0, 5, 20);
-    }
-
     private void updateDisplay() {
-        LCD.clear(0, 6, 20);
-        LCD.clear(0, 7, 20);
-        System.out.println(morseDisplay);
-        System.out.println(decodedWord);
-        LCD.drawString("Input: " + morseDisplay, 0, 6);
-        LCD.drawString("Output: " + decodedWord, 0, 7);
+        // Clear lines 5, 6, and 7 properly by overwriting with spaces
+        LCD.drawString("                    ", 0, 5);
+        LCD.drawString("                    ", 0, 6);
+        LCD.drawString("                    ", 0, 7);
+
+        // Redraw new values
+        LCD.drawString("Input: " + morseDisplay.toString(), 0, 6);
+        LCD.drawString("Output: " + decodedWord.toString(), 0, 7);
     }
 
     @Override

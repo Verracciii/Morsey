@@ -53,23 +53,20 @@ public class Morsey {
             LCD.drawString("Color Reader", 0, 0);
             ColorMorseReader colorReader = new ColorMorseReader();
             colorReader.start();
-         // In Morsey.java, modify the Touch Reader section:
         } else if (buttonId == Button.ID_RIGHT) {
             LCD.clear();
             LCD.drawString("Touch Reader", 0, 0);
-            BluetoothHandler btHandler = new BluetoothHandler();  // Initialize Bluetooth
-            
+            BluetoothHandler btHandler = new BluetoothHandler("B0-7D-64-DC-8F-10");  // Initialize Bluetooth
+            System.out.println(BluetoothHandler.getLocalBluetoothInfo());
+
             TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
             
             if (touchReader.isInputComplete()) {
                 String decodedMessage = touchReader.getMorseWord().toString();
                 LCD.drawString("Decoded: " + decodedMessage, 0, 2);
-                
-                if (btHandler.isBluetoothAvailable()) {
-                    btHandler.sendMessage(decodedMessage);
-                }
-                
+                btHandler.sendMessage(decodedMessage);
+              
                 arbitrator.go();
                 LCD.clear(0, 0, 18);
             }

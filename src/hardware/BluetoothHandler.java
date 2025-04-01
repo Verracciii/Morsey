@@ -1,82 +1,98 @@
 package hardware;
 
 import lejos.hardware.Bluetooth;
-import lejos.remote.nxt.NXTConnection;
-import lejos.hardware.lcd.LCD;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import lejos.hardware.LocalBTDevice;
+import lejos.remote.nxt.NXTConnection;
+import lejos.utility.Delay;
+import lejos.hardware.lcd.LCD;
+import java.io.*;
 
 public class BluetoothHandler {
     private static final String OUTPUT_FILENAME = "MorseOutput.txt";
-    private boolean bluetoothAvailable;
-
-    public BluetoothHandler() {
-        try {
-            // Check if Bluetooth is available by attempting to get local device info
-            LocalBTDevice btDevice = new LocalBTDevice();
-            String localName = btDevice.getFriendlyName();
-            System.out.println("localName = " + localName);
-            bluetoothAvailable = (localName != null && !localName.isEmpty());
-            
-            if (bluetoothAvailable) {
-                LCD.drawString("BT: Available", 0, 6);
-            } else {
-                LCD.drawString("BT: Not available", 0, 6);
-            }
-        } catch (UnsatisfiedLinkError e) {
-            bluetoothAvailable = false;
-            LCD.drawString("BT: Not available", 0, 6);
-        }
+    private final String targetAddress;
+    private boolean isAvailable;
+    private static final int CONNECTION_TIMEOUT = 10000; // 10 seconds
+    
+    public BluetoothHandler(String bluetoothAddress) {
+        // Store address without separators
+        this.targetAddress = bluetoothAddress.replaceAll("[:-]", "").toUpperCase();
+        this.isAvailable = checkBluetooth();
     }
 
-    public boolean isBluetoothAvailable() {
-        return bluetoothAvailable;
+    private boolean checkBluetooth() {
+        try {
+            LocalBTDevice btDevice = new LocalBTDevice();
+            String localName = btDevice.getFriendlyName();
+            String localAddress = btDevice.getBluetoothAddress();
+            
+            System.out.println("EV3 BT Name: " + localName);
+            System.out.println("EV3 BT Address: " + localAddress);
+            
+            return (localName != null && !localName.isEmpty());
+        } catch (UnsatisfiedLinkError e) {
+            System.out.println("BT: Not available");
+            return false;
+        }
     }
 
     public void sendMessage(String message) {
-        if (!bluetoothAvailable) {
-            LCD.drawString("BT: No connection", 0, 6);
+        if (!isAvailable) {
+            LCD.drawString("BT: Disabled", 0, 6);
             return;
         }
 
+        // First write to file (for backup)
+        File outputFile = new File(OUTPUT_FILENAME);
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(outputFile))) {
+            dos.writeBytes(message);
+            System.out.println("Saved to file: " + message);
+        } catch (IOException e) {
+            System.out.println("File write error");
+        }
+
+        // Then send via Bluetooth
+        NXTConnection connection = null;
         try {
-            // Write message to file first
-            File outputFile = new File(OUTPUT_FILENAME);
-            try (FileOutputStream fos = new FileOutputStream(outputFile);
-                 DataOutputStream dos = new DataOutputStream(fos)) {
-                dos.writeBytes(message);
-                System.out.println("message = " + message);
-
+            String connString = "btspp://" + targetAddress + ":1";
+            LCD.clear(6);
+            LCD.drawString("Connecting...", 0, 6);
+            
+            connection = Bluetooth.getNXTCommConnector()
+                                .connect(connString, NXTConnection.RAW);
+            
+            if (connection == null) {
+                LCD.drawString("BT: No connection", 0, 6);
+                return;
             }
 
-            // Connect to last paired device (empty string connects to last device)
-            LCD.drawString("BT: Connecting...", 0, 6);
-            NXTConnection connection = Bluetooth.getNXTCommConnector().connect("", NXTConnection.RAW);
-            
-            if (connection != null) {
-                LCD.drawString("BT: Sending...", 0, 6);
-                System.out.println("Sending");
-                try (OutputStream out = connection.openOutputStream()) {
-                    out.write(message.getBytes());
-                    out.flush();
-                    LCD.drawString("BT: Sent!", 0, 6);
-                    System.out.println("Sent");
-                }
-                connection.close();
-            } else {
-                LCD.drawString("BT: Failed", 0, 6);
-                System.out.println("Failed");
+            LCD.drawString("Sending...", 0, 6);
+            try (OutputStream out = connection.openOutputStream()) {
+                out.write(message.getBytes());
+                out.flush();
+                LCD.drawString("Sent " + message.length() + "B", 0, 6);
+                System.out.println("Sent: " + message);
+                Delay.msDelay(2000);
             }
-            
-            outputFile.delete();
-            
         } catch (IOException e) {
             LCD.drawString("BT Error", 0, 6);
-            System.out.println("Error");
+            System.out.println("BT Error: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                try { connection.close(); } 
+                catch (IOException e) { /* Ignore */ }
+            }
+            outputFile.delete(); // Clean up temp file
+            LCD.clear(6);
+        }
+    }
+
+    public static String getLocalBluetoothInfo() {
+        try {
+            LocalBTDevice btDevice = new LocalBTDevice();
+            return "Name: " + btDevice.getFriendlyName() + 
+                   "\nAddress: " + btDevice.getBluetoothAddress();
+        } catch (UnsatisfiedLinkError e) {
+            return "BT: Not available";
         }
     }
 }

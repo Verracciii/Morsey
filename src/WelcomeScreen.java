@@ -16,8 +16,7 @@ public class WelcomeScreen {
 	        
 	        // Display each line centered
 	        for (int i = 0; i < AUTHORS.length; i++) {
-	            int xPos = (LCD.SCREEN_WIDTH - AUTHORS[i].length()) / 2;
-	            LCD.drawString(AUTHORS[i], xPos, i);
+	            LCD.drawString(AUTHORS[i], 0, i);
 	        }
 	        
 	        // Wait for any button press
