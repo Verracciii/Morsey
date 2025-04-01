@@ -1,53 +1,71 @@
+import behaviors.*;
 import hardware.MotorController;
+import morse.*;
+
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.lcd.TextLCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
-import morse.ColorMorseReader;
+import lejos.hardware.port.SensorPort;
+import lejos.robotics.subsumption.Behavior;
+import lejos.robotics.subsumption.Arbitrator;
 
 public class Morsey {
-    public static void main(String[] args) throws InterruptedException {
 
-        // Initialize hardware
-        MotorController motorController = new MotorController(MotorPort.A, MotorPort.D);
-        TextLCD lcd = LocalEV3.get().getTextLCD();
+    public static void main(String[] args) {
+        // Initialise motor controller
+    	EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+    	EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.D);
+        MotorController motorController = new MotorController(leftMotor, rightMotor);
 
-        // Declare variables before use
-        Logger1 logger = null;
-        ColorMorseReader morsereader = null;
-      //  TouchMorseReader touchMorseReader = null;
+        // Initialise sensor controllers
+        EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
+        EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
+        EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
+        Behavior exitHandler = new ExitHandler(motorController,colorSensor,touchSensor,ultrasonicSensor);
+        // Create instances of the behaviors
+        Behavior touchInterrupt = new TouchInterrupt(motorController, touchSensor);
 
-        // Display menu
+        // Create an array of behaviors for the arbitrator
+        Behavior[] behaviors = { touchInterrupt, exitHandler };
+
+        // Create the arbitrator and start it
+        Arbitrator arbitrator = new Arbitrator(behaviors);
+
+        // Display the main menu
         LCD.clear();
         LCD.drawString("Select Mode:", 0, 0);
         LCD.drawString("LEFT: Color Reader", 0, 2);
         LCD.drawString("RIGHT: Touch Reader", 0, 3);
 
-        // Wait for left or right button press
-        while (true) {
-            int buttonId = Button.waitForAnyPress();
+        // Wait for user input
+        int buttonId;
+        do {
+            buttonId = Button.waitForAnyPress();
+        } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT);
 
-            if (buttonId == Button.ID_LEFT) {
-                morsereader = new ColorMorseReader(motorController);
-                logger = new Logger1(lcd, motorController, morsereader);
-                morsereader.start();
-                break;
-            }
-
-            else if (buttonId == Button.ID_RIGHT) {
-             /*   touchMorseReader = new TouchMorseReader(motorController);
-                logger = new Logger1(lcd, motorController, touchMorseReader);
-                touchMorseReader.start();
-                break;*/
+        // Handle the selected mode
+        if (buttonId == Button.ID_LEFT) {
+            // Start Color Reader Mode
+            LCD.clear();
+            LCD.drawString("Color Reader", 0, 0);
+            ColorMorseReader colorReader = new ColorMorseReader();
+            colorReader.start();
+        } else if (buttonId == Button.ID_RIGHT) {
+            // Start Touch Reader Mode
+            LCD.clear();
+            LCD.drawString("Touch Reader", 0, 0);
+            TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
+            touchReader.start();
+            if (touchReader.isInputComplete()) {
+            	arbitrator.go();
+            	LCD.clear(0, 0, 18);
             }
         }
 
-        // Start the logger if initialized
-        Thread.sleep(500);
-        if (logger != null) {
-            logger.start();
-        }
     }
 }
-

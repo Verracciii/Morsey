@@ -1,76 +1,82 @@
 package hardware;
+
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.Port;
-
 
 public class MotorController {
+	private final EV3LargeRegulatedMotor leftMotor;
+	private final EV3LargeRegulatedMotor rightMotor;
 
-    private EV3LargeRegulatedMotor leftMotor;
-    private EV3LargeRegulatedMotor rightMotor;
-    private final int WHEEL_SPEED = 38; // Wheel speed in degrees per second
+	private final static float WHEEL_DIAMETER = 51; // mm
+	private final static float AXLE_LENGTH = 105; // mm
+	private final static float ANGULAR_SPEED = 90; // deg/sec
+	private final static float LINEAR_SPEED = 70; // mm/sec
 
-    public MotorController(Port leftPort, Port rightPort) {
-        // Initialise the motors connected to ports A and D
-    	 leftMotor = new EV3LargeRegulatedMotor(leftPort);
-         rightMotor = new EV3LargeRegulatedMotor(rightPort);
-        // Set the motor speed
-        this.leftMotor.setSpeed(WHEEL_SPEED);
-        this.rightMotor.setSpeed(WHEEL_SPEED);
-    }
-    
-    public EV3LargeRegulatedMotor getLeftMotor() {
-        return leftMotor;
-    }
-
-    public EV3LargeRegulatedMotor getRightMotor() {
-        return rightMotor;
-    }
-
-    public void forward() {
-        leftMotor.forward();
-        rightMotor.forward();
-    }
-
-    public void stop() {
-        leftMotor.stop(true); // Stop the left motor and wait for it to stop
-        rightMotor.stop();    // Stop the right motor
-    }
-
-    public void turn(int angle) {
-        // Rotate the left and right motors in opposite directions to turn
-        leftMotor.rotate(angle, true);  // Rotate left motor (non-blocking)
-        rightMotor.rotate(-angle);     // Rotate right motor (blocking)
-    }
-
-    public void followInstruction(String instruction) {
-        switch (instruction.toUpperCase()) {
-            case "FW": // Forward
-                forward();
-                break;
-            case "ST": // Stop
-                stop();
-                break;
-            case "TL": // Turn Left
-                turn(-90); // Turn left by 90 degrees
-                break;
-            case "TR": // Turn Right
-                turn(90); // Turn right by 90 degrees
-                break;
-            default:
-                System.out.println("Unknown instruction: " + instruction);
-                break;
-        }
-    }
-
-    public void close() {
-        leftMotor.close();
-        rightMotor.close();
-    }
-
-	public boolean isMoving() {
-	   
-		return true;
+	public MotorController(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor) {
+		this.leftMotor = leftMotor;
+		this.rightMotor = rightMotor;
 	}
-    
+
+	public void forward() {
+		setMoveSpeed();
+		leftMotor.forward();
+		rightMotor.forward();
+	}
+
+	public void stop() {
+		leftMotor.stop(true);
+		rightMotor.stop();
+	}
+
+	public void turn(int degrees) {
+		// Calculate wheel rotation needed for turn
+		float wheelRotation = (degrees * AXLE_LENGTH) / WHEEL_DIAMETER;
+
+		leftMotor.setSpeed(ANGULAR_SPEED);
+		rightMotor.setSpeed(ANGULAR_SPEED);
+
+		leftMotor.rotate((int) wheelRotation, true);
+		rightMotor.rotate(-(int) wheelRotation);
+
+		setMoveSpeed();
+	}
+
+	private void setMoveSpeed() {
+		// Convert linear speed to motor degrees/sec
+		float motorSpeed = (LINEAR_SPEED * 360) / (float) (Math.PI * WHEEL_DIAMETER);
+		leftMotor.setSpeed(motorSpeed);
+		rightMotor.setSpeed(motorSpeed);
+	}
+
+	public void followInstruction(String instruction) {
+		switch (instruction.toUpperCase()) {
+		case "FW":
+			forward();
+			break;
+		case "ST":
+			stop();
+			break;
+		case "TL":
+			turn(-90);
+			break;
+		case "TR":
+			turn(90);
+			break;
+		default:
+			System.out.println("Unknown instruction");
+		}
+	}
+
+	public void close() {
+		leftMotor.close();
+		rightMotor.close();
+	}
+
+	public EV3LargeRegulatedMotor getLeftMotor() {
+		return leftMotor;
+	}
+
+	public EV3LargeRegulatedMotor getRightMotor() {
+		return rightMotor;
+	}
 }
