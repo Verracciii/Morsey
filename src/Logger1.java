@@ -1,5 +1,3 @@
-
-
 import hardware.MotorController;
 import lejos.hardware.lcd.TextLCD;
 import morse.ColorMorseReader;
@@ -37,7 +35,7 @@ public class Logger1 extends Thread {
             lcd.drawString("Motor Speed: " + motorController.getLeftMotor().getSpeed(), 0, 1);
             lcd.drawString("Motor Tacho: " + motorController.getLeftMotor().getTachoCount(), 0, 2);
             lcd.drawString("Morse: " + morseString, 0, 4);
-            lcd.drawString("Word: " + decodedWord, 0, 5);
+            lcd.drawString("Word: " + decodedWord, 0, 5); // Display the decoded word with spaces
             lcd.refresh();
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +51,7 @@ public class Logger1 extends Thread {
         }
         
         if (wordSequence != null) {
-            decodedWord = wordSequence.toString();
+            decodedWord = wordSequence.toString(); // This will now include spaces
         }
     }
 }
