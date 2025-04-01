@@ -7,6 +7,8 @@ import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.subsumption.Behavior;
 import lejos.robotics.subsumption.Arbitrator;
@@ -14,10 +16,12 @@ import lejos.robotics.subsumption.Arbitrator;
 public class Morsey {
 
     public static void main(String[] args) {
-        // Initialize motor controller
-        MotorController motorController = new MotorController();
+        // Initialise motor controller
+    	EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+    	EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.D);
+        MotorController motorController = new MotorController(leftMotor, rightMotor);
 
-        // Initialize sensor controllers
+        // Initialise sensor controllers
         EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
         EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
         EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
