@@ -1,0 +1,8 @@
+/hardware/
+/behaviors/
+/morse/
+bin/
+build/.DS_Store
+.DS_Store
+dist/
+Morsey.jar
