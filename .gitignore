@@ -1,10 +1,10 @@
-/Logger1.class
-/Logging/
-/MorseReader.class
 /hardware/
 /behaviors/
 /morse/
 bin/
 build/.DS_Store
 .DS_Store
-.settings/
+dist/
+*.class
+*.jar
+/WelcomeScreen.class
