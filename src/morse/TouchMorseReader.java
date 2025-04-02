@@ -48,7 +48,7 @@ public class TouchMorseReader extends Thread implements MorseReader {
 
     // Initialises LCD display with instructions for user input
     private void initializeDisplay() {
-        LCD.clear();  // Clear the LCD screen
+       // LCD.clear();  // Clear the LCD screen
         LCD.drawString("Enter Morse Code:", 0, 0);  // Display instructions
         LCD.drawString("Short=Dot (.)", 0, 1);
         LCD.drawString("Long=Dash (-)", 0, 2);

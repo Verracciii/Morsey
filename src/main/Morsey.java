@@ -14,6 +14,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.subsumption.Behavior;
+import lejos.utility.Delay;
 import lejos.robotics.subsumption.Arbitrator;
 
 public class Morsey {
@@ -41,10 +42,8 @@ public class Morsey {
         // Create an array of behaviors for the arbitrator
         Behavior[] behaviors = { obstacleAvoider, touchInterrupt, batteryVol, exitHandler };
 
-        // Create the arbitrator and start it
-        Arbitrator arbitrator = new Arbitrator(behaviors);
-
         // Display the main menu
+        Delay.msDelay(10);
         LCD.clear();
         LCD.drawString("Select Mode:", 0, 0);
         LCD.drawString("LEFT: Color Reader", 0, 2);
@@ -55,28 +54,28 @@ public class Morsey {
         do {
             buttonId = Button.waitForAnyPress();
         } while (buttonId != Button.ID_LEFT && buttonId != Button.ID_RIGHT);
+        
+        LCD.clear();
 
         // Handle the selected mode
         if (buttonId == Button.ID_LEFT) {
             // Start Color Reader Mode
-            LCD.clear();
             LCD.drawString("Color Reader", 0, 0);
             ColorMorseReader colorReader = new ColorMorseReader(motorController, colorSensor);
             Logger logger = new Logger(textLCD, motorController, colorReader);
             colorReader.start();
             logger.start();
-            arbitrator.go();
            
         } else if (buttonId == Button.ID_RIGHT) {
             // Start Touch Reader Mode
-            LCD.clear();
             LCD.drawString("Touch Reader", 0, 0);
             TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
-            if (touchReader.isInputComplete()) {
-            	LCD.clear(0, 0, 18);
-            }
-            arbitrator.go();
+            
         }
+       
+        // Create the arbitrator and start it
+        Arbitrator arbitrator = new Arbitrator(behaviors);
+        arbitrator.go();
     }
 }

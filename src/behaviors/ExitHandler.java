@@ -41,8 +41,8 @@ public class ExitHandler implements Behavior {
     public void action() {
         suppressed = false;
         // Provide visual feedback
-        LCD.clear();
-        LCD.drawString("", 0, 0);
+//        LCD.clear();
+//        LCD.drawString("", 0, 0);
         exitProgram();
     }
 

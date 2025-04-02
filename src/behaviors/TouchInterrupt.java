@@ -16,18 +16,9 @@ public class TouchInterrupt implements Behavior {
         this.touchSensor = touchSensor;
     }
 
-    // Enables behaviour and prompts the user to press ENTER
-    public void enable() {
-        this.enabled = true;
-        LCD.clear();
-        LCD.drawString("Press ENTER to", 0, 0);
-    }
-
     // Determines if behaviour should take control (when ENTER is pressed)
     @Override
     public boolean takeControl() {
-        if (!enabled) return false; // Only activate if enabled
-        
         enterPressed = Button.ENTER.isDown(); // Check if ENTER button is pressed
         return enterPressed;
     }
