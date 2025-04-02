@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MorseReaderBase {
-    // Shared Morse Code Map (static so it's created only once)
+    // Shared Morse Code Map (static so created only once)
     private static final Map<String, Character> MORSE_CODE_MAP = new HashMap<>();
 
     static {
+        // Map Morse Code to respective characters
         MORSE_CODE_MAP.put(".-", 'A');   MORSE_CODE_MAP.put("-...", 'B');
         MORSE_CODE_MAP.put("-.-.", 'C'); MORSE_CODE_MAP.put("-..", 'D');
         MORSE_CODE_MAP.put(".", 'E');    MORSE_CODE_MAP.put("..-.", 'F');
@@ -30,27 +31,23 @@ public class MorseReaderBase {
         MORSE_CODE_MAP.put("---..", '8'); MORSE_CODE_MAP.put("----.", '9');
     }
 
- 
+    // Method to decode single Morse code letter into a character
     public static Character decodeSingleMorseLetter(String morseLetter) {
+        // Check if input Morse letter is null or empty
         if (morseLetter == null || morseLetter.isEmpty()) {
             System.out.println("Null or empty Morse code input");
             return null;
         }
         
-        // Clean the morse code string: trim spaces and remove non-Morse characters
-        
-        
+        // Trim spaces from Morse code and retrieve decoded character
         Character decodedChar = MORSE_CODE_MAP.get(morseLetter.trim());
         
+        // If character is found, return character; otherwise return '?' as an error marker
         if(decodedChar == null) {
-        	return'?';
-        }
-        else {
-        	return decodedChar;
+            return '?';
+        } else {
+            return decodedChar;
         }
     }
-    
 
-    }
-
-
+}
