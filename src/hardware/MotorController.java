@@ -11,7 +11,7 @@ public class MotorController {
 	private final static float WHEEL_DIAMETER = 51; // mm
 	private final static float AXLE_LENGTH = 105; // mm
 	private final static float ANGULAR_SPEED = 38; // deg/sec
-	private final static float LINEAR_SPEED = 70; // mm/sec
+	private final static float LINEAR_SPEED = 28; // mm/sec
 
 	public MotorController(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor) {
 		this.leftMotor = leftMotor;
