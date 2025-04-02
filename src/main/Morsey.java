@@ -17,6 +17,7 @@ import lejos.robotics.subsumption.Arbitrator;
 public class Morsey {
 
     public static void main(String[] args) {
+    	WelcomeScreen.show();
         // Initialise motor controller
     	EV3LargeRegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.A);
     	EV3LargeRegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.D);
@@ -59,7 +60,7 @@ public class Morsey {
             LCD.drawString("Color Reader", 0, 0);
             ColorMorseReader colorReader = new ColorMorseReader(motorController, colorSensor);
             colorReader.start();
-            arbitrator.go();
+           
         } else if (buttonId == Button.ID_RIGHT) {
             // Start Touch Reader Mode
             LCD.clear();
@@ -67,10 +68,9 @@ public class Morsey {
             TouchMorseReader touchReader = new TouchMorseReader(motorController, touchSensor);
             touchReader.start();
             if (touchReader.isInputComplete()) {
-            	arbitrator.go();
             	LCD.clear(0, 0, 18);
             }
         }
-
+        arbitrator.go();
     }
 }

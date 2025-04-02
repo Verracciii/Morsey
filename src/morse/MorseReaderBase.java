@@ -52,29 +52,5 @@ public class MorseReaderBase {
     
 
     }
-  /*  public static String decodeMorseWithSpaces(String morseSequence) {
-        StringBuilder decodedSequence = new StringBuilder();
-        String[] morseWords = morseSequence.split("\\s{3}"); // Split into words (3 spaces = word separation)
 
-        for (String morseWord : morseWords) {
-            String[] morseLetters = morseWord.split("\\s"); // Split into individual letters (1 space)
-
-            for (int i = 0; i < morseLetters.length; i++) {
-                // Decode the letter
-                Character decodedChar = decodeSingleMorseLetter(morseLetters[i]);
-                
-                // Append the decoded character
-                decodedSequence.append(decodedChar);
-            }
-            // Append space between words (but not at the end of the sentence)
-            decodedSequence.append(" ");
-        }
-
-        // Remove the last space (if any) to avoid trailing spaces in the final sentence
-        if (decodedSequence.length() > 0 && decodedSequence.charAt(decodedSequence.length() - 1) == ' ') {
-            decodedSequence.setLength(decodedSequence.length() - 1);
-        }
-
-        return decodedSequence.toString(); // Return the full decoded sentence without the unnecessary space at the end
-    }*/
 

@@ -9,3 +9,4 @@ dist/
 *.jar
 /WelcomeScreen.class
 .settings/
+src/.DS_Store
