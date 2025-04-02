@@ -28,6 +28,13 @@ public class MotorController {
 			stop();
 		}
 	}
+	
+	// Movement methods
+		public void forward() {
+			setMoveSpeed();
+			leftMotor.forward();
+			rightMotor.forward();
+		}
 
 	public void stop() {
 		leftMotor.stop(true);
@@ -117,5 +124,10 @@ public class MotorController {
 
 	public EV3LargeRegulatedMotor getRightMotor() {
 		return rightMotor;
+	}
+
+	public boolean isMoving() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

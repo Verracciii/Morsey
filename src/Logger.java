@@ -10,7 +10,7 @@ public class Logger extends Thread {
     private String decodedWord = "";
 
     // Constructor: Initialises the LCD, motor, and sensor
-    public Logger(TextLCD lcd, MotorController motorController, EV3TouchSensor touchSensorr) {
+    public Logger(TextLCD lcd, MotorController motorController, EV3TouchSensor touchSensor) {
         this.lcd = lcd;
         this.motorController = motorController;
         this.touchSensor = touchSensor;
