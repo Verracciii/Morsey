@@ -10,7 +10,7 @@ public class MotorController {
 	// Physical constants
 	private final static float WHEEL_DIAMETER = 51; // mm
 	private final static float AXLE_LENGTH = 105; // mm
-	private final static float ANGULAR_SPEED = 90; // deg/sec
+	private final static float ANGULAR_SPEED = 38; // deg/sec
 	private final static float LINEAR_SPEED = 70; // mm/sec
 
 	 // Constructor: Initialises motor controllers
@@ -122,6 +122,10 @@ public class MotorController {
         leftMotor.close();
         rightMotor.close();
     }
+	
+	public boolean isMoving() {
+		return leftMotor.isMoving() || rightMotor.isMoving();
+	}
 
     // Returns left motor instance
     public EV3LargeRegulatedMotor getLeftMotor() {
@@ -133,10 +137,5 @@ public class MotorController {
         return rightMotor;
     }
 
-    
-    public boolean isMoving() {
-    	// Not needed to be implemented
-        return false;
-    }
 
 }
