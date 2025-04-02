@@ -30,7 +30,7 @@ public class Morsey {
         
         
         // Create instances of the behaviors
-        Behavior touchInterrupt = new TouchInterrupt(motorController, touchSensor);
+        Behavior touchInterrupt = new TouchInterrupt(touchSensor);
         Behavior exitHandler = new ExitHandler(motorController, colorSensor, touchSensor, ultrasonicSensor);
         Behavior batteryVol = new  BatteryVoltageBehavior(motorController, colorSensor, touchSensor, ultrasonicSensor);
         Behavior obstacleAvoider = new ObstacleAvoider(motorController, ultrasonicSensor);
