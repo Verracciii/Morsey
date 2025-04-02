@@ -4,14 +4,14 @@ import hardware.MotorController;
 import lejos.hardware.lcd.TextLCD;
 import morse.ColorMorseReader;
 
-public class Logger1 extends Thread {
+public class Logger extends Thread {
     private final TextLCD lcd;
     private final MotorController motorController;
     private final ColorMorseReader colorMorseReader;
     private String morseString = "";
     private String decodedWord = "";
 
-    public Logger1(TextLCD lcd, MotorController motorController, ColorMorseReader colorMorseReader) {
+    public Logger(TextLCD lcd, MotorController motorController, ColorMorseReader colorMorseReader) {
         this.lcd = lcd;
         this.motorController = motorController;
         this.colorMorseReader = colorMorseReader;
