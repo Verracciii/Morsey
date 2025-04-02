@@ -30,9 +30,9 @@ public class ColorMorseReader extends Thread implements MorseReader {
     private StringBuilder MorseSequence = new StringBuilder(); // Used to store the full Morse sequence
 
     // Constructor to initialize the ColorMorseReader
-    public ColorMorseReader(MotorController motorController) {
+    public ColorMorseReader(MotorController motorController, EV3ColorSensor colorSensor) {
         this.motorController = motorController;
-        colorSensor = new EV3ColorSensor(SensorPort.S2);
+        this.colorSensor = colorSensor;
         colorMode = colorSensor.getRedMode();
         this.blackTimer = new ConfiguredTimer();
         this.running = true;
