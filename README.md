@@ -16,6 +16,13 @@ The Morse Code Reader Robot is an autonomous robot that reads Morse code from pa
 - **Ultrasonic Sensor** - Detects obstacles and avoids them.
 - **Two Large Motors** - Controls robot movement.
 
+## Packages
+main - contains main files to run the robot. 'Morsey' is the main java driver class that should be compiled.
+behaviors - contains the robots behaviors.
+hardware - contains classes dealing with the sensors and motors of the robot.
+logging - package containing the Logger.
+morse - package containing classes dealing with touch and colour morse input.
+
 ## Features
 - Reads Morse code from paper.
 - Avoids obstacles using an ultrasonic sensor and waypoints.
