@@ -1,4 +1,5 @@
 package main;
+import Logging.Logger;
 import behaviors.*;
 import hardware.MotorController;
 import morse.*;
@@ -8,6 +9,7 @@ import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.hardware.Button;
 import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.lcd.TextLCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
@@ -26,6 +28,7 @@ public class Morsey {
         EV3ColorSensor colorSensor = new EV3ColorSensor(SensorPort.S2);
         EV3TouchSensor touchSensor = new EV3TouchSensor(SensorPort.S1);
         EV3UltrasonicSensor ultrasonicSensor = new EV3UltrasonicSensor(SensorPort.S3);
+        TextLCD lcd = LocalEV3.get().getTextLCD();
         
         
         // Create instances of the behaviors
@@ -59,6 +62,8 @@ public class Morsey {
             LCD.drawString("Color Reader", 0, 0);
             ColorMorseReader colorReader = new ColorMorseReader(motorController, colorSensor);
             colorReader.start();
+            Logger logger = new Logger(lcd, motorController, colorReader);
+            logger.start();
             arbitrator.go();
         } else if (buttonId == Button.ID_RIGHT) {
             // Start Touch Reader Mode
