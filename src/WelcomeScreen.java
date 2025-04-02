@@ -14,7 +14,7 @@ public class WelcomeScreen {
 	    public static void show() {
 	        LCD.clear();
 	        
-	        // Display each line centered
+	        // Display each line
 	        for (int i = 0; i < AUTHORS.length; i++) {
 	            LCD.drawString(AUTHORS[i], 0, i);
 	        }

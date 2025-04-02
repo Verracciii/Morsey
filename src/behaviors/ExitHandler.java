@@ -14,6 +14,7 @@ public class ExitHandler implements Behavior {
     private EV3UltrasonicSensor ultrasonicSensor;
     private boolean suppressed = false;
     
+    // Constructor: Initialises the motor controller and sensors
     public ExitHandler(MotorController motorController, EV3ColorSensor colorSensor, 
                        EV3TouchSensor touchSensor, EV3UltrasonicSensor ultrasonicSensor) {
         this.motorController = motorController;
@@ -22,28 +23,31 @@ public class ExitHandler implements Behavior {
         this.ultrasonicSensor = ultrasonicSensor;
     }
 
+    // Determines if behaviour should take control (when ESCAPE button is pressed)
     @Override
     public boolean takeControl() {
-        // Take control when ESCAPE button is pressed
-        return Button.ESCAPE.isDown();
+        return Button.ESCAPE.isDown(); // Returns true if ESCAPE button is pressed
     }
 
+    // Executes exit procedure when ESCAPE is pressed
     @Override
     public void action() {
-        suppressed = false;
+        suppressed = false; // Reset suppression flag
         exitProgram();
     }
 
+    // Allows suppression of behaviour
     @Override
     public void suppress() {
         suppressed = true;
     }
     
+    // Closes all sensors and safely exits the program
     public void exitProgram() {
         if (colorSensor != null) colorSensor.close();
         if (touchSensor != null) touchSensor.close();
         if (ultrasonicSensor != null) ultrasonicSensor.close();
         if (motorController != null) motorController.close();
-        System.exit(0);
+        System.exit(0); // Exit the program
     }
 }
